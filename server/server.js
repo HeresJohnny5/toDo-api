@@ -1,58 +1,33 @@
-const mongoose = require('mongoose');
+// LIBRARY IMPORTS
+const express = require('express');
+const app = express();
+const bodyParser = require('body-parser'); // body-parser allows you to send JSON to the server taking the string body  and turning it into a JavaScript object
 
-mongoose.Promise = global.Promise;
-
-mongoose.connect('mongodb://localhost:27017/TodoApp', {
-	useMongoClient: true
-});
+// LOCAL IMPORTS
+// ES6 Destructuring
+// local variable mongoose equal to the mongoose property of the object returned via the file required 
+var {mongoose} = require('./db/mongoose');
 
 // MODELS
-var Todo = mongoose.model('Todo', {
-	text: {
-		type: String,
-		required: true,
-		minlength: 1, // this will prevent the user from entering a empty string
-		trim: true // this will eliminate leading / trailing whitespace
-	},
-	completed: {
-		type: Boolean,
-		default: false
-	}, 
-	completedAt: {
-		type: Number,
-		default: null
-	}
-});
+var {Todo} = require('./models/todo');
+var {User} = require('./models/user');
 
-var User = mongoose.model('User', {
-	email: {
-		type: String,
-		requied: true,
-		minlength: 1,
-		trim: true
-	}
-});
+// MIDDLEWEAR
+app.use(bodyParser.json());
 
-// CREATE
-var newUser = new User({
-	email: 'johnerickson@example.com'
-});
-
-//var newTodo = new Todo({
-//	text: 'Learn NodeJS',
-//	completed: true,
-//	completedAt: 010818
-//});
+// ROUTES
+app.post('/todos', (req, res) => {
+	var todo = new Todo({
+		text: req.body.text
+	});
 	
-// SAVE
-newUser.save().then((doc) => {
-	console.log(`Saved user: ${newUser}.`);
-}, (err) => {
-	console.log(`Unable to save user.`);
-})
+	todo.save().then((doc) => {
+		res.send(doc);
+	}, (err) => {
+		res.status(400).send(err);
+	})
+});
 
-//newTodo.save().then((doc) => {
-//	console.log(`Saved todo: ${doc}.`);
-//}, (err) => {
-//	console.log(`Unable to save todo.`);
-//})
+app.listen('3000', () => { 
+	console.log(`Server has started on port 3000.`); 
+});
