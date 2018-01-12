@@ -6,7 +6,8 @@ const bodyParser = require('body-parser'); // body-parser allows you to send JSO
 // LOCAL IMPORTS
 // ES6 Destructuring
 // local variable mongoose equal to the mongoose property of the object returned via the file required 
-var {mongoose} = require('./db/mongoose');
+const {mongoose} = require('./db/mongoose');
+const {ObjectId} = require('mongodb');
 
 // MODELS
 var {Todo} = require('./models/todo');
@@ -16,6 +17,18 @@ var {User} = require('./models/user');
 app.use(bodyParser.json());
 
 // ROUTES
+// INDEX
+app.get('/todos', (req, res) => {
+	Todo.find().then((todos) => {
+		res.send({
+			todos
+		});
+	}, (err) => {
+		res.status(400).send(err);
+	});
+});
+
+// CREATE
 app.post('/todos', (req, res) => {
 	var todo = new Todo({
 		text: req.body.text
@@ -28,14 +41,25 @@ app.post('/todos', (req, res) => {
 	})
 });
 
-app.get('/todos', (req, res) => {
-	Todo.find().then((todos) => {
+// SHOW
+app.get('/todos/:id', (req, res) => {
+	var id = req.params.id;
+	
+	if (!ObjectId.isValid(id)) {
+		return res.status(404).send();
+	};
+	
+	Todo.findById(id).then((todo) => {
+		if (!todo) {
+			return res.status(404).send();
+		}
+		
 		res.send({
-			todos
+			todo
 		});
-	}, (err) => {
-		res.status(400).send(err);
-	});
+	}).catch((err) => {
+		res.status(404).send();
+	})
 });
 
 app.listen('3000', () => { 
