@@ -2,9 +2,6 @@ const mongoose = require('mongoose');
 
 mongoose.Promise = global.Promise;
 
-var username = process.env.DB_USERNAME;
-var password = process.env.DB_PASSWORD;
-
 console.log(username);
 console.log(password);
 
