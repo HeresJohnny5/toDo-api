@@ -8,6 +8,7 @@ const bodyParser = require('body-parser'); // body-parser allows you to send JSO
 // local variable mongoose equal to the mongoose property of the object returned via the file required 
 const {mongoose} = require('./db/mongoose');
 const {ObjectId} = require('mongodb');
+const port = process.env.PORT || 3000; // this will be set if the app is running on Heroku or locally 
 
 // MODELS
 var {Todo} = require('./models/todo');
@@ -62,8 +63,8 @@ app.get('/todos/:id', (req, res) => {
 	})
 });
 
-app.listen('3000', () => { 
-	console.log(`Server has started on port 3000.`); 
+app.listen(port, () => { 
+	console.log(`Server has started on port ${port}.`); 
 });
 
 module.exports = {
