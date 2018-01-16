@@ -2,6 +2,7 @@
 const express = require('express');
 const app = express();
 const bodyParser = require('body-parser'); // body-parser allows you to send JSON to the server taking the string body  and turning it into a JavaScript object
+const _ = require('lodash');
 
 // LOCAL IMPORTS
 // ES6 Destructuring
@@ -59,7 +60,36 @@ app.get('/todos/:id', (req, res) => {
 			todo
 		});
 	}).catch((err) => {
-		res.status(404).send();
+		res.status(400).send();
+	})
+});
+
+// UPDATE
+app.patch('/todos/:id', (req, res) => {
+	var id = req.params.id;
+	var body = _.pick(req.body, ['text', 'completed']); // .pick takes an object and an array of properties that you want to pull off if they exist adding it to body
+	
+	if (!ObjectId.isValid(id)) {
+		return res.status(404).send();
+	};
+	
+	if (_.isBoolean(body.completed) && body.completed) {
+		body.completedAt = new Date().getTime();
+	} else {
+		body.completed = false;
+		body.completedAt = null; // this will remove the value from the database
+	}
+	
+	Todo.findByIdAndUpdate(id, {$set: body}, {new: true}).then((todo) => {
+		if (!todo) {
+			res.status(404).send();
+		}
+		
+		res.send({
+			todo
+		});
+	}).catch((err) => {
+		res.status(400).send();
 	})
 });
 
@@ -80,7 +110,7 @@ app.delete('/todos/:id', (req, res) => {
 			todo
 		});
 	}).catch((err) => {
-		res.status(404).send();
+		res.status(400).send();
 	})
 });
 
