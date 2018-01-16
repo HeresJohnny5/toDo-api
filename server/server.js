@@ -1,7 +1,7 @@
 // LIBRARY IMPORTS
 const express = require('express');
 const app = express();
-const bodyParser = require('body-parser'); // body-parser allows you to send JSON to the server taking the string body  and turning it into a JavaScript object
+const bodyParser = require('body-parser'); // body-parser allows you to send JSON to the server taking the string body and turning it into a JavaScript object
 const _ = require('lodash');
 
 // LOCAL IMPORTS
@@ -22,9 +22,7 @@ app.use(bodyParser.json());
 // INDEX
 app.get('/todos', (req, res) => {
 	Todo.find().then((todos) => {
-		res.send({
-			todos
-		});
+		res.send({todos});
 	}, (err) => {
 		res.status(400).send(err);
 	});
@@ -56,9 +54,7 @@ app.get('/todos/:id', (req, res) => {
 			return res.status(404).send();
 		}
 		
-		res.send({
-			todo
-		});
+		res.send({todo});
 	}).catch((err) => {
 		res.status(400).send();
 	})
@@ -85,9 +81,7 @@ app.patch('/todos/:id', (req, res) => {
 			res.status(404).send();
 		}
 		
-		res.send({
-			todo
-		});
+		res.send({todo});
 	}).catch((err) => {
 		res.status(400).send();
 	})
@@ -106,9 +100,7 @@ app.delete('/todos/:id', (req, res) => {
 			return res.status(404).send();
 		}
 		
-		res.send({
-			todo
-		});
+		res.send({todo});
 	}).catch((err) => {
 		res.status(400).send();
 	})
