@@ -4,7 +4,7 @@ const password = process.env.DB_PASSWORD;
 
 mongoose.Promise = global.Promise;
 
-mongoose.connect(/*"mongodb://" + username + ":" + password + "@ds155577.mlab.com:55577/todoapp-nodejs" ||*/ 'mongodb://localhost:27017/TodoApp', {
+mongoose.connect("mongodb://" + username + ":" + password + "@ds155577.mlab.com:55577/todoapp-nodejs" || 'mongodb://localhost:27017/TodoApp', {
 	useMongoClient: true
 });
 
