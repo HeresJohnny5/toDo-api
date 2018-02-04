@@ -11,9 +11,9 @@ MongoClient.connect(url, (err, db) => {
 	console.log('Connected to MongoDB sever.');
 	
 	db.collection('Users').findOneAndDelete({
-		name: 'John'
+			_id: new ObjectID("5a73a3d12d6b3b73f027dae9")
 	}).then((result) => {
-		console.log(result);
+			console.log(result);
 	})
 	
 //	db.close();

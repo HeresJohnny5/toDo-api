@@ -20,7 +20,7 @@ MongoClient.connect(url, (err, db) => {
 //			return console.log(`Unable to insert todo: ${err}.`);
 //		}
 //		
-//		// method .ops will store all of the docs that were inserted
+//		// method .ops will store all of the docs that were inserted in an array
 //		console.log(JSON.stringify(res.ops, undefined, 2));
 //	});
 	
@@ -35,6 +35,25 @@ MongoClient.connect(url, (err, db) => {
 //		
 //		console.log(JSON.stringify(res.ops, undefined, 2));
 //	});
+	
+	db.collection('Users').insertMany([
+		{
+			name: 'John',
+			age: 39,
+			location: 'Pittsburgh'
+		},
+		{
+			name: 'Nacho',
+			age: 9,
+			location: 'Portland'
+		}
+	], (err, res) => {
+		if (err) {
+			return console.log(`Unable to insert user: ${err}.`);
+		}
+		
+		console.log(JSON.stringify(res.ops, undefined, 2));
+	});
 	
 	db.close();
 });

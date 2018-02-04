@@ -22,19 +22,33 @@ MongoClient.connect(url, (err, db) => {
 //		console.log(result);
 //	});
 	
+//	db.collection('Users').findOneAndUpdate({
+//		_id: new ObjectID('5a511dec3e23e330a1953733')
+//	}, {
+//		$set: {
+//			name: 'Pook'
+//		},
+//		$inc: {
+//			age: +1
+//		}
+//	}, {
+//		returnOriginal: false
+//	}).then((result) => {
+//		console.log(result);
+//	})
+	
 	db.collection('Users').findOneAndUpdate({
-		_id: new ObjectID('5a511dec3e23e330a1953733')
+		name: 'Kelly'
 	}, {
 		$set: {
-			name: 'Pook'
-		},
-		$inc: {
-			age: +1
+			name: 'Bob'
 		}
 	}, {
 		returnOriginal: false
 	}).then((result) => {
 		console.log(result);
+	}, (err) => {
+		console.log(err);
 	})
 	
 //	db.close();

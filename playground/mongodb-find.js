@@ -10,6 +10,16 @@ MongoClient.connect(url, (err, db) => {
 	
 	console.log('Connected to MongoDB sever.');
 	
+	db.collection('Users').find({
+		_id: new ObjectID("5a73a0317325a04e42fdbcc0")
+	}, {
+		_id: 0
+	}).toArray().then((docs) => {
+		console.log(JSON.stringify(docs, undefined, 2));
+	}, (err) => {
+		console.log(`Unable to fetch User: ${err}.`);
+	});
+	
 // calling method .find is only the first step. The .find method returns a Mongo DB cursor, which is not the actual document itself
 // the method .toArray returns a promise
 //	db.collection('Todos').find({
