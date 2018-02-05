@@ -1,3 +1,5 @@
+require('./config/config');
+
 // LIBRARY IMPORTS
 const express = require('express');
 const app = express();
@@ -9,7 +11,7 @@ const _ = require('lodash');
 // local variable mongoose equal to the mongoose property of the object returned via the file required 
 const {mongoose} = require('./db/mongoose');
 const {ObjectId} = require('mongodb');
-const port = process.env.PORT || 3000; // this will be set if the app is running on Heroku or locally 
+const port = process.env.PORT; // this will be set if the app is running on Heroku 
 
 // MODELS
 var {Todo} = require('./models/todo');
