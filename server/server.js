@@ -20,7 +20,7 @@ var {User} = require('./models/user');
 // MIDDLEWEAR
 app.use(bodyParser.json());
 
-// ROUTES
+// TODO ROUTES
 // INDEX
 app.get('/todos', (req, res) => {
 	Todo.find().then((todos) => {
@@ -40,7 +40,7 @@ app.post('/todos', (req, res) => {
 		res.send(doc);
 	}, (err) => {
 		res.status(400).send(err);
-	})
+	});
 });
 
 // SHOW
@@ -105,6 +105,20 @@ app.delete('/todos/:id', (req, res) => {
 		res.send({todo});
 	}).catch((err) => {
 		res.status(400).send();
+	})
+});
+
+// USER ROUTES
+// CREATE
+app.post('/users', (req, res) => {
+	var body = _.pick(req.body, ['email', 'password']);
+	
+	var user = new User(body);
+	
+	user.save().then((doc) => {
+		res.send(doc);
+	}).catch((e) => {
+		res.status(400).send(e);
 	})
 });
 
